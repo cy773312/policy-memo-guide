@@ -1,0 +1,4 @@
+interface:
+  display_name: "Policy Memo Guide"
+  short_description: "Draft policy memos in Duke style"
+  default_prompt: "Use $policy-memo-guide to turn my notes into a concise policy memo for a named audience."

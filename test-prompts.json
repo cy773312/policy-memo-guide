@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "prompt": "请把下面这些分析整理成给市长办公室的政策备忘录，主题是是否扩大夜间公交服务。我已经有一些材料，但还没有完整结论。",
+    "expected": "先识别受众、议题和暂定建议；若信息不足，先给 memo-ready outline 或带假设的完整 memo，而不是写成普通议论文。"
+  },
+  {
+    "id": 2,
+    "prompt": "Turn my notes on export controls and semiconductor supply chains into a policy memo for the Minister of Trade. I want a strong recommendation and clear tradeoffs.",
+    "expected": "Produce a full memo in English with an executive summary, action-oriented recommendation, informative headings, and explicit tradeoffs."
+  },
+  {
+    "id": 3,
+    "prompt": "我有一篇背景分析，但老师要求改成 policy memo。受众还没定，建议也不够明确。你先帮我搭好结构并指出缺什么。",
+    "expected": "Switch to outline or recommendation-options mode, ask only the minimum missing questions, and keep memo structure front and center."
+  }
+]
