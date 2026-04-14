@@ -1,124 +1,145 @@
-<div align="right">
+# Policy Memo Guide Skill
 
-中文 | **[English](README_EN.md)**
+<p align="center">
+  <strong>面向政策备忘录写作场景的 Codex Skill</strong><br />
+  把分析、笔记和研究材料，稳定转成真正给决策者看的 policy memo，而不是普通议论文。
+</p>
 
-</div>
+<p align="center">
+  <a href="./README.en.md">English Version</a> ·
+  <a href="./SKILL.md">查看 SKILL.md</a> ·
+  <a href="https://github.com/alchaincyf/darwin-skill">Darwin Skill 优化器</a>
+</p>
 
-<div align="center">
+<p align="center">
+  <img src="https://img.shields.io/badge/Codex-技能-111827?style=flat-square" alt="Codex 技能" />
+  <img src="https://img.shields.io/badge/语言-中文优先-0f766e?style=flat-square" alt="中文优先" />
+  <img src="https://img.shields.io/badge/用途-Policy%20Memo-7c3aed?style=flat-square" alt="Policy Memo" />
+  <a href="https://github.com/alchaincyf/darwin-skill">
+    <img src="https://img.shields.io/badge/迭代优化-Darwin%20Skill-2563eb?style=flat-square" alt="Darwin Skill 迭代优化" />
+  </a>
+</p>
 
-# policy-memo-guide
+<p align="center">
+  <sub>English readers can use <a href="./README.en.md">README.en.md</a>.</sub>
+</p>
 
-**把分析、笔记和研究材料，稳定转成真正可交付的 Policy Memo。**
+## 一句话介绍
 
-[![Skill](https://img.shields.io/badge/Skill-policy--memo--guide-111827)](#)
-[![Language](https://img.shields.io/badge/language-中文主%20%7C%20English-0f766e)](#)
-[![Genre](https://img.shields.io/badge/genre-Policy%20Memo-7c3aed)](#)
-[![Reference](https://img.shields.io/badge/reference-Duke%20Writing%20Studio-b45309)](references/duke-policy-memo-guide.md)
-[![Optimized%20with](https://img.shields.io/badge/optimized%20with-darwin--skill-2563eb)](https://github.com/alchaincyf/darwin-skill)
+`policy-memo-guide` 是一个专门服务于 **policy memo / 政策备忘录** 写作任务的 skill。  
+它的目标不是“帮你写点正式文字”，而是帮助 agent 在 memo 场景下更稳定地做到：
 
-</div>
+- 先识别受众与决策问题
+- 先给 recommendation，再给背景
+- 信息不完整时优先给 `memo-ready outline`
+- 保持 memo 格式，而不是滑向一般分析文
 
----
+## 适合什么场景
 
-## 这是什么
+这个 skill 特别适合：
 
-`policy-memo-guide` 是一个面向 Agent / Codex 工作流的写作 skill，专门处理这类任务：
+- 给市长办公室、部长、校长、主任等具体受众写 memo
+- 把研究笔记、背景分析、brief 改写成 policy memo
+- 老师或上级要求“不要写 essay，要写 memo”
+- recommendation 还没完全稳定，但需要先把结构搭出来
+- 希望输出更像“可交付文书”，而不是聊天式回答
 
-- 把零散分析改写成正式 `policy memo`
-- 在信息不完整时，先产出 `memo-ready outline`
-- 在受众、建议、证据不稳定时，给出更稳妥的结构化 fallback
-- 按 Duke Writing Studio 的 memo 逻辑组织内容，而不是滑向普通议论文
-
-它不是通用写作助手，而是一个**决策导向文书 skill**。
-
----
-
-## 为什么它有用
-
-很多模型“知道” policy memo 长什么样，但在真实任务里仍会出现几个常见问题：
-
-- 信息一不完整，就开始过度追问
-- 写成一般分析文，而不是 memo
-- 背景写太多，建议写太晚
-- audience 不明确时，没有先给可用骨架
-
-这个 skill 的目标就是把这些常见失误压下去，让输出更像一个真正给决策者看的 memo。
-
----
-
-## 设计原则
-
-这个 skill 以 Duke Writing Studio 的 policy memo 指南为核心参考，重点强化四件事：
-
-1. **Audience-first**
-   先锁定 memo 是写给谁、为了解决什么决策问题。
-
-2. **Inverted pyramid**
-   重要结论靠前，背景和细节靠后。
-
-3. **Executive-summary discipline**
-   即使只读标题和前一段，也能抓到主张。
-
-4. **Outline-before-stall**
-   信息不完整时，优先给可用结构，而不是只抛回问题。
-
----
-
-## 适用场景
-
-适合这些典型请求：
-
-- “帮我写一份给市长办公室的政策备忘录”
-- “把这份分析改成 policy memo”
-- “turn this into a memo for the minister”
-- “我老师要求从分析文改成 policy memo”
-- “我还没想清楚建议，但先帮我把 memo 结构搭出来”
-
-不适合：
+它**不主要用于**：
 
 - 普通学术论文
 - 文献综述
-- 纯评论文章
-- 不需要 memo 格式的泛化写作任务
+- 评论文章
+- 不要求 memo 格式的泛化写作
 
----
+## 这个 Skill 会做什么
 
-## 输出模式
+它会根据上下文，把请求路由到最合适的输出模式，而不是无脑只产出一种成品。
 
-这个 skill 不会把所有请求都硬写成同一种成品，而是按上下文切到最合适的模式：
+默认支持 4 类结果：
 
-| 模式 | 适用情况 | 结果 |
-| --- | --- | --- |
-| `Full memo` | 信息足够完整 | 直接起草完整 memo |
-| `Memo-ready outline` | 关键信息缺失，但已能搭结构 | 先给可用骨架与假设 |
-| `Rewrite` | 用户已有分析稿/笔记/brief | 提炼后改写成 memo |
-| `Recommendation options` | 核心建议还不明确 | 先给选项，再选出最强建议 |
+1. 完整 `Full memo`
+2. `Memo-ready outline`
+3. `Rewrite`（把现有材料改写成 memo）
+4. `Recommendation options`
 
----
+核心能力可以概括成 4 件事：
 
-## 示例 Prompt
+| 能力 | 作用 |
+|---|---|
+| 先锁定 audience / issue / recommendation | 避免写成“泛政策分析” |
+| 倒金字塔组织 | 让结论和建议更早出现 |
+| 信息不足时先给结构 | 降低无谓追问率 |
+| memo-first 写作约束 | 避免滑向 essay 或评论文 |
+
+## 触发方式
+
+适合被这样调用：
 
 ```text
-请把下面这些分析整理成给市长办公室的政策备忘录，主题是是否扩大夜间公交服务。
+请把下面这些分析整理成给市长办公室的政策备忘录。
 ```
 
 ```text
-Turn my notes on export controls and semiconductor supply chains into a policy memo for the Minister of Trade.
+把这份分析改成 policy memo，受众是教育部。
 ```
 
 ```text
-我有一篇背景分析，但老师要求改成 policy memo。受众还没定，建议也不够明确。你先帮我搭好结构并指出缺什么。
+Turn this into a policy memo for the Minister of Trade.
 ```
 
----
+```text
+我老师要求把这篇背景分析改成 policy memo，你先帮我搭结构。
+```
+
+也适合更口语化的请求：
+
+- “帮我写成备忘录”
+- “不要 essay，要 memo”
+- “先给我一个 memo outline”
+- “把这份分析改成给决策者看的版本”
+
+## 输出风格
+
+这个 skill 的输出目标不是“写得像正式作文”，而是“写得像真正的 memo”。
+
+它会尽量做到：
+
+- audience 明确
+- recommendation 靠前
+- executive summary 清楚
+- subheading 可扫读
+- 假设和不确定性标注明确
+
+常见输出模式包括：
+
+- `To / From / Date / RE`
+- `Executive Summary`
+- recommendation-first section headings
+- 简洁 tradeoff / implementation 风格
+
+## 快速安装
+
+如果你的 Codex skills 放在 `$CODEX_HOME/skills` 下：
+
+```bash
+git clone https://github.com/cy773312/policy-memo-guide.git \
+  "${CODEX_HOME:-$HOME/.codex}/skills/policy-memo-guide"
+```
+
+也可以手动复制整个目录：
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+cp -R policy-memo-guide "${CODEX_HOME:-$HOME/.codex}/skills/"
+```
 
 ## 仓库结构
 
 ```text
 policy-memo-guide/
-├── SKILL.md
 ├── README.md
-├── README_EN.md
+├── README.en.md
+├── SKILL.md
 ├── test-prompts.json
 ├── agents/
 │   └── openai.yaml
@@ -126,67 +147,58 @@ policy-memo-guide/
     └── duke-policy-memo-guide.md
 ```
 
----
+## 为什么这个 Skill 值得单独存在
 
-## 参考来源
+policy memo 是一个很典型、但也很容易被模型“近似做错”的文类：
 
-- Duke Writing Studio Policy Memo Guide
-- 本仓库内的清洗版 reference：[`references/duke-policy-memo-guide.md`](references/duke-policy-memo-guide.md)
-- Duke 原始 PDF：`https://twp.duke.edu/sites/twp.duke.edu/files/file-attachments/policy-memo.original.pdf`
+- 模型往往知道它的名字
+- 但在真实任务里常常写成一般分析文
+- recommendation 不够前置
+- 信息不全时容易过度追问
 
----
+这个 skill 的设计目标，就是把回答强行拉回到 memo 工作流：
 
-## 迭代优化说明
+- 先界定 audience 和 decision point
+- 再决定是 full memo、outline 还是 options
+- 再按倒金字塔方式生成文书
 
-这个 skill 不是一次写完的，而是专门用 **[darwin-skill](https://github.com/alchaincyf/darwin-skill)** 做过多轮迭代优化。
+## 使用 Darwin Skill 做迭代优化
 
-优化方法不是“拍脑袋改文案”，而是更接近一个小型的 skill hill-climbing loop：
+这个仓库不是一次性写出来的，而是借助 [`darwin-skill`](https://github.com/alchaincyf/darwin-skill) 做了多轮迭代优化。
 
-- 先按 8 个维度评分
-- 每轮只改一个最低分维度
-- 使用独立子 agent 做 with-skill / baseline 评测
-- 如果总分不升，就回滚
+优化方式不是“整体重写一遍”，而是更像一个小型 hill-climbing 流程：
 
-这意味着现在这个版本不是“作者主观看着顺眼”的版本，而是经过多轮对照和回退后留下来的版本。
+1. 先评分
+2. 每轮只改一个弱项
+3. 改后重新评估
+4. 用独立子 agent 跑 `with_skill / baseline`
+5. 只有总分上升才保留，否则回滚
 
----
+实际优化重点包括：
 
-## 快速使用
+- 什么时候该追问，什么时候该先产出 outline
+- 什么时候该直接 full memo
+- memo 格式约束是否足够强
+- edge case 下是否仍然保持 memo-first
 
-把这个目录放进你的 skill 目录里即可，例如：
+这意味着它不是只在纸面上“写得工整”，而是经过独立对照和回退筛过一轮又一轮。
 
-```bash
-mkdir -p ~/.codex/skills
-cp -R policy-memo-guide ~/.codex/skills/
-```
+## 设计原则
 
-然后在支持 skill 的环境里直接调用：
+- Audience first
+- Recommendation early
+- Outline before stall
+- Memo over essay
+- Clarity over theoretical vagueness
 
-```text
-Use $policy-memo-guide to turn my notes into a concise policy memo for a named audience.
-```
+## 相关文件
 
-或者直接自然语言触发。
+- Skill 主体：[SKILL.md](./SKILL.md)
+- UI 元数据：[agents/openai.yaml](./agents/openai.yaml)
+- Duke 参考材料：[references/duke-policy-memo-guide.md](./references/duke-policy-memo-guide.md)
+- Darwin 优化器：[darwin-skill](https://github.com/alchaincyf/darwin-skill)
 
----
+## License
 
-## 适合谁
-
-- 经常要写政策备忘录的学生
-- 做公共政策、国际关系、公共管理相关写作的人
-- 想把研究笔记压缩成决策文书的人
-- 想让 Agent 在 memo 场景下更稳定的人
-
----
-
-## 状态
-
-当前版本已经过独立子 agent 评分与对照评测，属于可直接使用的稳定版本。  
-如果后续继续优化，优先会沿着：
-
-- 更强的 edge-case coverage
-- 更高的 with-skill 实测表现
-- 更低的无谓追问率
-
-继续迭代。
+当前仓库尚未附带许可证文件。若你希望开放复用条款，建议补一个 `MIT` 或 `Apache-2.0`。
 
